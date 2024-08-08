@@ -6,23 +6,36 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private float health = 100;
     [SerializeField] private HealthBar healthBar;
-    // Start is called before the first frame update
+    [SerializeField] private float maxHealth = 100;
+    public float Health { get => health; set => health = value; }
+    public float MaxHealth { get => maxHealth; set => maxHealth = value; }
 
     void Start()
     {
-        healthBar.setMaxValue(health);
-        healthBar.setValue(health);
+        setMaxHealthBar();
     }
 
     public void loosingHealth(float health)
     {
 
-        this.health -= health;
-        if (this.health <= 0)
+        this.Health -= health;
+        if (this.Health <= 0)
         {
             Destroy(gameObject);
             GameController.instance.EndGame("we loose the nebula!! :(");
         }
+        healthBar.setValue(this.Health);
+    }
+
+    public void setMaxHealthBar()
+    {
+        healthBar.setMaxValue(MaxHealth);
+        healthBar.setValue(this.health);
+    }
+
+    public void setHealthBar(float health)
+    {
+        this.health = health;
         healthBar.setValue(this.health);
     }
 }

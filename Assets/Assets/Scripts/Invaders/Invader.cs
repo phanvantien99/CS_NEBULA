@@ -7,11 +7,13 @@ using System;
 public class Invader : MonoBehaviour
 {
     private Path path;
+
     [SerializeField] private float health;
     [SerializeField] private float _speed = 5;
     [SerializeField] private float width = 4f;
     [SerializeField] private float height = 5f;
     [SerializeField] private int scoreGain;
+    [SerializeField] private HealingOrb healingOrb;
 
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private AudioSource _deadSoundSource;
@@ -59,6 +61,11 @@ public class Invader : MonoBehaviour
         {
             ParticleSystem ps = Instantiate(_particleSystem, transform.position, Quaternion.identity, transform.parent);
             Destroy(ps, 2f);
+            // rate 50% for drop healing orb
+            if (UnityEngine.Random.value < .5f)
+            {
+                Instantiate(healingOrb, transform.position, Quaternion.identity);
+            }
             gainScore.Invoke(this);
             Destroy(gameObject);
         }

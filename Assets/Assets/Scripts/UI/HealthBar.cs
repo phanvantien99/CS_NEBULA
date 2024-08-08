@@ -17,12 +17,20 @@ public class HealthBar : MonoBehaviour
 
     public void setMaxValue(float value)
     {
+        if (!slider)
+        {
+            slider = GetComponent<Slider>();
+        }
         slider.maxValue = value;
 
     }
 
     public void setValue(float value)
     {
+        if (!slider)
+        {
+            slider = GetComponent<Slider>();
+        }
         slider.value = value;
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }

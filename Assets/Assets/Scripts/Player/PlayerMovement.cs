@@ -10,18 +10,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float _xMovement;
     [SerializeField] private float _yMovement;
-    [SerializeField] private Vector3 _mousePosition;
     [SerializeField] private float _speed = 10;
 
-    private AudioSource audioSource;
 
     private Rigidbody2D rb;
 
     private void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
-        _mousePosition = Vector3.zero;
-        audioSource = GetComponent<AudioSource>();
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
     // priv         
@@ -29,14 +26,6 @@ public class PlayerMovement : MonoBehaviour
     // _xMovement = Input.GetAxis("Horizontal");
     // _yMovement = Input.GetAxis("Vertical");
     // }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            shootBullet();
-        }
-    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -48,15 +37,10 @@ public class PlayerMovement : MonoBehaviour
 
     void move()
     {
-        Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        rb.MovePosition(Vector2.MoveTowards(rb.position, mousePosition, _speed * Time.deltaTime));
-    }
-
-    private void shootBullet()
-    {
-
-        GameObject bullet = Instantiate(_bullet, this.transform.position, Quaternion.identity);
-        audioSource.Play();
-        bullet.SetActive(true);
+        if (mainCamera)
+        {
+            Vector2 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            rb.MovePosition(Vector2.MoveTowards(rb.position, mousePosition, _speed * Time.deltaTime));
+        }
     }
 }
